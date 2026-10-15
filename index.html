@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Press me</title>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      background: #fff;
+      font-family: system-ui, sans-serif;
+    }
+    button {
+      background: #e11d1d;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 1rem 2.5rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #c01010; }
+    button:active { transform: scale(0.97); }
+    #message {
+      font-size: 2.5rem;
+      font-weight: 700;
+      min-height: 3rem;
+      text-align: center;
+      padding: 0 1rem;
+    }
+  </style>
+</head>
+<body>
+  <button id="btn">Press me</button>
+  <div id="message" aria-live="polite"></div>
+
+  <script>
+    const words = "Fucc you, Nick".split(" ");
+    const btn = document.getElementById("btn");
+    const msg = document.getElementById("message");
+    let timer = null;
+
+    btn.addEventListener("click", () => {
+      clearInterval(timer);
+      msg.textContent = "";
+      let i = 0;
+      timer = setInterval(() => {
+        msg.textContent += (i ? " " : "") + words[i++];
+        if (i >= words.length) clearInterval(timer);
+      }, 600);
+    });
+  </script>
+</body>
+</html>
