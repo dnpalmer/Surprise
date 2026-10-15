@@ -27,6 +27,7 @@
     }
     button:hover { background: #c01010; }
     button:active { transform: scale(0.97); }
+    #countdown { font-size: 2rem; font-variant-numeric: tabular-nums; min-height: 2.5rem; }
     #message {
       font-size: 2.5rem;
       font-weight: 700;
@@ -39,20 +40,43 @@
 <body>
   <button id="btn">Press me</button>
   <div id="message" aria-live="polite"></div>
+  <div id="countdown"></div>
 
   <script>
     const words = "Fucc you, Nick".split(" ");
     const btn = document.getElementById("btn");
     const msg = document.getElementById("message");
+    const countdown = document.getElementById("countdown");
+    const READY_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1";
     let timer = null;
+
+    function showReady() {
+      btn.remove();
+      msg.textContent = "Are you ready?";
+      countdown.textContent = "";
+      const ready = document.createElement("button");
+      ready.textContent = "I am ready!";
+      ready.addEventListener("click", () => { window.location.href = READY_URL; });
+      document.body.appendChild(ready);
+    }
+
+    function startCountdown() {
+      let n = 60;
+      countdown.textContent = n;
+      timer = setInterval(() => {
+        countdown.textContent = --n;
+        if (n <= 0) { clearInterval(timer); showReady(); }
+      }, 1000);
+    }
 
     btn.addEventListener("click", () => {
       clearInterval(timer);
       msg.textContent = "";
+      countdown.textContent = "";
       let i = 0;
       timer = setInterval(() => {
         msg.textContent += (i ? " " : "") + words[i++];
-        if (i >= words.length) clearInterval(timer);
+        if (i >= words.length) { clearInterval(timer); startCountdown(); }
       }, 600);
     });
   </script>
