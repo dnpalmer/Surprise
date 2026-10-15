@@ -47,7 +47,7 @@
     const btn = document.getElementById("btn");
     const msg = document.getElementById("message");
     const countdown = document.getElementById("countdown");
-    const READY_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1";
+    const EMBED_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0";
     let timer = null;
 
     function showReady() {
@@ -56,8 +56,19 @@
       countdown.textContent = "";
       const ready = document.createElement("button");
       ready.textContent = "I am ready!";
-      ready.addEventListener("click", () => { window.location.href = READY_URL; });
+      ready.addEventListener("click", playVideo);
       document.body.appendChild(ready);
+    }
+
+    function playVideo() {
+      document.body.innerHTML = "";
+      document.body.style.background = "#000";
+      const frame = document.createElement("iframe");
+      frame.src = EMBED_URL;
+      frame.allow = "autoplay; encrypted-media; fullscreen";
+      frame.allowFullscreen = true;
+      frame.style.cssText = "position:fixed;inset:0;width:100%;height:100%;border:0";
+      document.body.appendChild(frame);
     }
 
     function startCountdown() {
